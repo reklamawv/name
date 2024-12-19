@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <title>isep</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    .logo {
+      position: absolute;
+      bottom: 00%;
+      left: 43%;
+      z-index: 4;
+      filter: blur(0px) saturate(100%) brightness(90%) opacity(80%);
+      
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      position: relative;
+      overflow: hidden;
+    }
+    .background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      filter: blur(0px) saturate(50%) opacity(75%) brightness(50%);
+    }
+    .backgroundcolor {   /* фон общий */
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      background: linear-gradient(rgb(255, 255, 255), rgb(194, 211, 255));
+    }
+
+    .backgroundtext {  /* фон за текстом */
+      position: absolute;
+      top: 7%;
+      left: 10%;
+      width: 80%;
+      height: 25%; /* ставим 0 если не нужен */
+      z-index: 1;
+      opacity: 45%;
+      border-radius: 25px;
+      background: linear-gradient(rgb(0, 8, 52), rgb(0, 5, 82));
+      filter: blur(0px);
+    }
+    
+
+    .text {
+      font-size: 6vw;
+      font-family:  'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+      position: absolute;
+      top: 20%;
+      left: 50%;
+      width: 75%;
+      transform: translate(-50%, -50%);
+      color:rgb(255, 245, 239);
+      text-shadow: 2px 2px 2px black;
+      filter: drop-shadow(0 0 1px rgb(11, 0, 82));
+      text-align: center;
+      z-index: 10;
+      text-decoration: solid;
+      text-transform: uppercase;
+    }
+
+    .text1 {
+      font-size: 2.5vw;
+      font-family:   'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+      position: absolute;
+      top: 55%;
+      left: 50%;
+      width: 75%;
+      transform: translate(-50%, -50%);
+      color:rgb(255, 245, 239);
+      text-shadow: 1px 1px 2px black;
+      filter: drop-shadow(0 0 1px rgb(11, 0, 82));
+      text-align: center;
+      z-index: 10;
+      text-decoration: dotted;
+    }
+
+    .text2 {
+      font-size: 3vw;
+      font-family:   'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+      position: absolute;
+      top: 90%;
+      left: 20%;
+      width: 35%;
+      transform: translate(-50%, -50%);
+      color:rgb(255, 245, 239);
+      text-shadow: 1px 1px 1px black;
+      filter: drop-shadow(0 0 1px rgb(11, 0, 82));
+      text-align: center;
+      z-index: 10;
+      text-decoration: dotted;
+    }
+
+    .text3 {
+      font-size: 2.5vw;
+      font-family:   'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+      position: absolute;
+      top: 90%;
+      left: 80%;
+      width: 35%;
+      transform: translate(-50%, -50%);
+      color:rgb(255, 245, 239);
+      text-shadow: 1px 1px 1px black;
+      filter: drop-shadow(0 0 1px rgb(11, 0, 82));
+      text-align: center;
+      z-index: 10;
+      text-decoration: dotted;
+    }
+    
+  </style>
+</head>
+<body>
+  <div class="backgroundcolor" id="backgroundcolor"></div>
+  <div class="backgroundtext" id="backgroundtext"></div>  
+  <img id="image" class="background">
+  <div class="logo" id="logo">
+    <img src="logo/isep.png" alt="logo" style="width: 164px; height: 168px;">
+  </div>
+  
+  <div class="text" id="editable" contenteditable="true" oninput="//this.style.fontSize = (Math.min(32, 180 / this.textContent.length) + 'em')">Название</div>
+  <div class="text1" id="editable1" contenteditable="true" oninput="//this.style.fontSize = (Math.min(32, 180 / this.textContent.length) + 'em')">Описание</div>
+  <div class="text2" id="editable2" contenteditable="true" oninput="//this.style.fontSize = (Math.min(32, 180 / this.textContent.length) + 'em')">💳 Цена: 9900 рублей</div>
+  <div class="text3" id="editable3" contenteditable="true" oninput="//this.style.fontSize = (Math.min(32, 180 / this.textContent.length) + 'em')">📚 Онлайн-семинар N:</div>
+
+  <script>
+    // обработчик события вставки привязан ко все странице
+    document.onpaste = function (pasteEvent) {
+
+        // получаем первый элемент содержимого буфера обмена
+        const item = pasteEvent.clipboardData.items[0];
+
+        // смотрим, является ли элемент изображением
+        if (item.type.indexOf("image") === 0) {
+
+            // преобразуем содержимое первого элемента буфера обмена в файл
+            const blob = item.getAsFile();
+
+            // создаем объект, считывающий файлы
+            const reader = new FileReader();
+
+            // когда файл загрузится
+            reader.onload = function (event) {
+                // вставляем его на страницу
+                document.getElementById("image").src = event.target.result;
+            };
+
+            // запускаем чтение двоичных данных файл как тип data URL
+            reader.readAsDataURL(blob);
+        }
+    }
+
+    
+        document.getElementById('editable').addEventListener('paste', function(e) {
+            e.preventDefault();
+            const text = (e.originalEvent || e).clipboardData.getData('text/plain');
+            document.execCommand('inserttext', false, text);
+        });
+    
+        document.getElementById('editable1').addEventListener('paste', function(e) {
+            e.preventDefault();
+            const text = (e.originalEvent || e).clipboardData.getData('text/plain');
+            document.execCommand('inserttext', false, text);
+        });
+
+        document.getElementById('editable2').addEventListener('paste', function(e) {
+            e.preventDefault();
+            const text = (e.originalEvent || e).clipboardData.getData('text/plain');
+            document.execCommand('inserttext', false, text);
+        });
+
+        document.getElementById('editable3').addEventListener('paste', function(e) {
+            e.preventDefault();
+            const text = (e.originalEvent || e).clipboardData.getData('text/plain');
+            document.execCommand('inserttext', false, text);
+        });
+
+
+
+        document.getElementById("editable").addEventListener("wheel", function(e) {
+  if (e.deltaY > 0) {
+    this.style.fontSize = (parseInt(this.style.fontSize || "16px") - 1) + "px";
+  } else {
+    this.style.fontSize = (parseInt(this.style.fontSize || "16px") + 2) + "px";
+  }
+  e.preventDefault();
+});
+
+document.getElementById("editable1").addEventListener("wheel", function(e) {
+  if (e.deltaY > 0) {
+    this.style.fontSize = (parseInt(this.style.fontSize || "16px") - 1) + "px";
+  } else {
+    this.style.fontSize = (parseInt(this.style.fontSize || "16px") + 2) + "px";
+  }
+  e.preventDefault();
+});
+
+document.getElementById("editable2").addEventListener("wheel", function(e) {
+  if (e.deltaY > 0) {
+    this.style.fontSize = (parseInt(this.style.fontSize || "16px") - 1) + "px";
+  } else {
+    this.style.fontSize = (parseInt(this.style.fontSize || "16px") + 2) + "px";
+  }
+  e.preventDefault();
+});
+
+document.getElementById("editable3").addEventListener("wheel", function(e) {
+  if (e.deltaY > 0) {
+    this.style.fontSize = (parseInt(this.style.fontSize || "16px") - 1) + "px";
+  } else {
+    this.style.fontSize = (parseInt(this.style.fontSize || "16px") + 2) + "px";
+  }
+  e.preventDefault();
+});
+
+
+document.getElementById("logo").addEventListener("contextmenu", function(e) {
+  event.preventDefault();
+  var img = document.getElementById('backgroundcolor');
+   // Генерируем случайное число для выбора яркости
+   var brightnessLevels = ['30%', '50%', '90%'];
+  var randomBrightness = brightnessLevels[Math.floor(Math.random() * brightnessLevels.length)];
+
+  // Применяем выбранное значение яркости к изображению
+  img.style.filter = "brightness(" + randomBrightness + ")";
+
+  // Возвращаем false, чтобы предотвратить отображение стандартного контекстного меню
+  return false;
+});
+
+document.getElementById("logo").addEventListener("click", function(e) {
+  event.preventDefault();
+  var img = document.getElementById('image');
+   // Генерируем случайное число для выбора яркости
+   var blurLevels = ['0px', '3px', '8px'];
+  var randomBlur = blurLevels[Math.floor(Math.random() * blurLevels.length)];
+
+  // Применяем выбранное значение яркости к изображению
+  img.style.filter = "blur(" + randomBlur + ")";
+
+  // Возвращаем false, чтобы предотвратить отображение стандартного контекстного меню
+  return false;
+});
+
+
+
+</script>
+</body>
+</html>
